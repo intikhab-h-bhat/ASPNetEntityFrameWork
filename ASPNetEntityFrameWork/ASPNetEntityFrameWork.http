@@ -1,0 +1,6 @@
+@ASPNetEntityFrameWork_HostAddress = http://localhost:5164
+
+GET {{ASPNetEntityFrameWork_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
