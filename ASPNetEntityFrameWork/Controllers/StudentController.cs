@@ -1,4 +1,6 @@
-﻿using ASPCoreWebApi.Models;
+﻿//using ASPCoreWebApi.Models;
+using ASPCoreWebApi.Models;
+using ASPNetEntityFrameWork.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -9,12 +11,18 @@ namespace ASPCoreWebApi.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
+        private readonly CollegeDBContext _collegeDbContext;
+
+        public StudentController(CollegeDBContext collegeDbContext)
+        {
+            _collegeDbContext = collegeDbContext;
+        }
 
 
 
         //public static List<Student> students = new List<Student>()
         //{
-              
+
         //        new Student
         //        {
         //            Id = 1,
@@ -34,12 +42,12 @@ namespace ASPCoreWebApi.Controllers
 
         [HttpGet]
         [Route("All",Name ="GetAllStudents")]
-        public ActionResult<List<Student>> Getstudents()
+        public IActionResult Getstudents()
         {
             // return students;
 
             //OK -200 status
-            return Ok(StudentRepository.students);
+            return Ok(_collegeDbContext.studentcs);
 
             //return new List<Student>
             //{
@@ -64,35 +72,80 @@ namespace ASPCoreWebApi.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public ActionResult<Student> getallstudent(int id) {
-        
-            if (id <= 0)
-            {
-                // Badrequest -400 status
-                return BadRequest("The id cannot be 0 or less than 0");
-            }
+        public IActionResult getallstudent(int id) {
 
-            var student = StudentRepository.students.FirstOrDefault(x => x.Id == id);
-            if (student == null)           
-                // NotFound -404 status
-                return NotFound($"The student id {id} you are looking doesnot exist");
-            
-            // Ok -200 status
-            return Ok(StudentRepository.students.FirstOrDefault(x=> x.Id==id));
-        
+            return Ok(_collegeDbContext.studentcs.FirstOrDefault(x => x.Id == id));
+
+            //if (id <= 0)
+            //{
+            //    // Badrequest -400 status
+            //    return BadRequest("The id cannot be 0 or less than 0");
+            //}
+
+            //var student = StudentRepository.students.FirstOrDefault(x => x.Id == id);
+            //if (student == null)           
+            //    // NotFound -404 status
+            //    return NotFound($"The student id {id} you are looking doesnot exist");
+
+            //// Ok -200 status
+            //return Ok(StudentRepository.students.FirstOrDefault(x=> x.Id==id));
+
         }
 
         [HttpGet("{name:alpha}")]
-        public ActionResult<Student> getallstudent(string name)
+        public IActionResult getallstudent(string name)
         {
-            if (name == null)
-            {
-                return NotFound("The");
-            }
+            //if (name == null)
+            //{
+            //    return NotFound("The");
+            //}
 
-            // OK -200 status
-            return Ok(StudentRepository.students.FirstOrDefault(x => x.Name == name));
+            //// OK -200 status
+            //return Ok(StudentRepository.students.FirstOrDefault(x => x.Name == name));
 
+            return Ok(_collegeDbContext.studentcs.FirstOrDefault(x => x.Name == name));
         }
-    }
+
+
+    //    [HttpPost]
+    //    [ProducesResponseType(typeof(Employee), 201)]
+    //    public IActionResult CreateEmployee(EmployeeRequest request)
+    //    {
+    //        Employee employee = new()
+    //        {
+    //            Address = request.Address,
+    //            City = request.City,
+    //            Name = request.Name
+    //        };
+
+    //        _employeeDbContext.Employees.Add(employee);
+    //        _employeeDbContext.SaveChanges();
+
+    //        return CreatedAtAction("Get", new { id = employee.Id }, employee);
+    //    }
+
+    //    [HttpDelete("{id}")]
+    //    public IActionResult Delete(int id)
+    //    {
+    //        var employee = _employeeDbContext.Employees.FirstOrDefault(x => x.Id == id);
+    //        _employeeDbContext.Employees.Remove(employee);
+    //        _employeeDbContext.SaveChanges();
+    //        return NoContent();
+    //    }
+
+    //    [HttpPut("{id}")]
+    //    public IActionResult Update(int id, EmployeeRequest request)
+    //    {
+    //        var employee = _employeeDbContext.Employees.FirstOrDefault(x => x.Id == id);
+    //        employee.Name = request.Name;
+    //        employee.Address = request.Address;
+    //        employee.City = request.City;
+
+    //        _employeeDbContext.Employees.Update(employee);
+    //        _employeeDbContext.SaveChanges();
+
+    //        return Ok(employee);
+    //    }
+    //}
+}
 }

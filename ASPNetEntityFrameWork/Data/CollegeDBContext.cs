@@ -2,13 +2,14 @@
 
 namespace ASPNetEntityFrameWork.Data
 {
-    public class CollegeDBContext:DbContext
+    public class CollegeDBContext : DbContext
     {
-        public CollegeDBContext(DbContextOptions<CollegeDBContext> options):base(options)
+        //public CollegeDBContext(DbContextOptions<CollegeDBContext> options):base(options)
+        public CollegeDBContext(DbContextOptions dbContxtOptions) : base(dbContxtOptions)
         {
-            
+
         }
 
-        DbSet<Student> studentcs {  get; set; }
+        public DbSet<Student> studentcs { get; set; }
     }
 }
