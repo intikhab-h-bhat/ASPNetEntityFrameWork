@@ -1,6 +1,7 @@
 ﻿//using ASPCoreWebApi.Models;
 using ASPCoreWebApi.Models;
 using ASPNetEntityFrameWork.Data;
+using ASPNetEntityFrameWork.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -107,45 +108,46 @@ namespace ASPCoreWebApi.Controllers
         }
 
 
-    //    [HttpPost]
-    //    [ProducesResponseType(typeof(Employee), 201)]
-    //    public IActionResult CreateEmployee(EmployeeRequest request)
-    //    {
-    //        Employee employee = new()
-    //        {
-    //            Address = request.Address,
-    //            City = request.City,
-    //            Name = request.Name
-    //        };
+        [HttpPost]
+        [ProducesResponseType(typeof(Student), 201)]
+        public IActionResult CreateStudent(StudentRequest request)
+        {
+            Student student = new()
+            {
+                Address = request.Address,
+                Email = request.Email,
+                Name = request.Name,
+                DOB=request.DOB
+            };
 
-    //        _employeeDbContext.Employees.Add(employee);
-    //        _employeeDbContext.SaveChanges();
+            _collegeDbContext.studentcs.Add(student);
+            _collegeDbContext.SaveChanges();
 
-    //        return CreatedAtAction("Get", new { id = employee.Id }, employee);
-    //    }
+            return CreatedAtAction("Get", new { id = student.Id }, student);
+        }
 
-    //    [HttpDelete("{id}")]
-    //    public IActionResult Delete(int id)
-    //    {
-    //        var employee = _employeeDbContext.Employees.FirstOrDefault(x => x.Id == id);
-    //        _employeeDbContext.Employees.Remove(employee);
-    //        _employeeDbContext.SaveChanges();
-    //        return NoContent();
-    //    }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var delstudent = _collegeDbContext.studentcs.FirstOrDefault(x => x.Id == id);
+            _collegeDbContext.studentcs.Remove(delstudent);
+            _collegeDbContext.SaveChanges();
+            return NoContent();
+        }
 
-    //    [HttpPut("{id}")]
-    //    public IActionResult Update(int id, EmployeeRequest request)
-    //    {
-    //        var employee = _employeeDbContext.Employees.FirstOrDefault(x => x.Id == id);
-    //        employee.Name = request.Name;
-    //        employee.Address = request.Address;
-    //        employee.City = request.City;
+        //    [HttpPut("{id}")]
+        //    public IActionResult Update(int id, EmployeeRequest request)
+        //    {
+        //        var employee = _employeeDbContext.Employees.FirstOrDefault(x => x.Id == id);
+        //        employee.Name = request.Name;
+        //        employee.Address = request.Address;
+        //        employee.City = request.City;
 
-    //        _employeeDbContext.Employees.Update(employee);
-    //        _employeeDbContext.SaveChanges();
+        //        _employeeDbContext.Employees.Update(employee);
+        //        _employeeDbContext.SaveChanges();
 
-    //        return Ok(employee);
-    //    }
-    //}
-}
+        //        return Ok(employee);
+        //    }
+        //}
+    }
 }
