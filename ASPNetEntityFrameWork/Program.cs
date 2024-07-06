@@ -1,4 +1,12 @@
+using ASPNetEntityFrameWork.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddDbContext<CollegeDBContext>(options =>
+    //options.UseSqlServer("Data Source=LAPTOP-DMBBHO6R;Initial Catalog=GPSDB;Integrated Security=True;Trust Server Certificate=True") ) ;
+    options.UseSqlServer(builder.Configuration.GetConnectionString("collegDbCon")));
 
 // Add services to the container.
 
