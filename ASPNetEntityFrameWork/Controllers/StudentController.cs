@@ -5,6 +5,7 @@ using ASPNetEntityFrameWork.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 
 namespace ASPCoreWebApi.Controllers
 {
@@ -135,19 +136,20 @@ namespace ASPCoreWebApi.Controllers
             return NoContent();
         }
 
-        //    [HttpPut("{id}")]
-        //    public IActionResult Update(int id, EmployeeRequest request)
-        //    {
-        //        var employee = _employeeDbContext.Employees.FirstOrDefault(x => x.Id == id);
-        //        employee.Name = request.Name;
-        //        employee.Address = request.Address;
-        //        employee.City = request.City;
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, StudentRequest request)
+        {
+            var updateStudent = _collegeDbContext.studentcs.FirstOrDefault(x => x.Id == id);
+            updateStudent.Address = request.Address;
+            updateStudent.Email = request.Email;
+            updateStudent.Name = request.Name;
+            updateStudent.DOB = request.DOB;
 
-        //        _employeeDbContext.Employees.Update(employee);
-        //        _employeeDbContext.SaveChanges();
+            _collegeDbContext.studentcs.Update(updateStudent);
+            _collegeDbContext.SaveChanges();
 
-        //        return Ok(employee);
-        //    }
-        //}
+            return Ok(updateStudent);
+        }
     }
 }
+
