@@ -124,7 +124,7 @@ namespace ASPCoreWebApi.Controllers
             _collegeDbContext.studentcs.Add(student);
             _collegeDbContext.SaveChanges();
 
-            return CreatedAtAction("Get", new { id = student.Id }, student);
+            return CreatedAtAction("getallstudent", new { id = student.Id }, student);
         }
 
         [HttpDelete("{id}")]
