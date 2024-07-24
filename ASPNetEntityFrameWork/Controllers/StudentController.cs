@@ -44,6 +44,7 @@ namespace ASPCoreWebApi.Controllers
 
         [HttpGet]
         [Route("All",Name ="GetAllStudents")]
+        [ProducesResponseType(200)]
         public IActionResult Getstudents()
         {
             // return students;
