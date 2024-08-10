@@ -47,7 +47,7 @@ namespace ASPCoreWebApi.Controllers
         [ProducesResponseType(200)]
         public IActionResult Getstudents()
         {
-            // return students;
+            // return students;g
 
             //OK -200 status
             return Ok(_collegeDbContext.studentcs);
