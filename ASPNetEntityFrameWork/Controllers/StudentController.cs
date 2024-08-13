@@ -1,6 +1,7 @@
 ﻿//using ASPCoreWebApi.Models;
 using ASPCoreWebApi.Models;
 using ASPNetEntityFrameWork.Data;
+using ASPNetEntityFrameWork.Models;
 using ASPNetEntityFrameWork.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -45,30 +46,26 @@ namespace ASPCoreWebApi.Controllers
         [HttpGet]
         [Route("All",Name ="GetAllStudents")]
         [ProducesResponseType(200)]
-        public IActionResult Getstudents()
-        {
-            // return students;g
+        public ActionResult<IEnumerable<StudentDTO>> Getstudents()
+        {       
+
+            var studentsdto =new List<StudentDTO>();
+            foreach(var item in _collegeDbContext.studentcs)
+            {
+                StudentDTO obj = new StudentDTO()
+                {
+                    Id= item.Id,
+                    Name = item.Name,
+                    Address = item.Address,
+                    Email = item.Email       
+                };
+                studentsdto.Add(obj);
+                
+            }
 
             //OK -200 status
-            return Ok(_collegeDbContext.studentcs);
+            return Ok(studentsdto);
 
-            //return new List<Student>
-            //{
-            //    new Student
-            //    {
-            //        Id = 1,
-            //        Name = "Student 1",
-            //        Address = "Address 1",
-            //        Email = "Abc@gmail.com"
-            //    },
-            //    new Student
-            //    {
-            //        Id = 2,
-            //        Name = "Student 2",
-            //        Address = "Address 2",
-            //        Email = "Abc2@gmail.com"
-            //    }
-            //};
         }
 
         [HttpGet("{id:int}")]
