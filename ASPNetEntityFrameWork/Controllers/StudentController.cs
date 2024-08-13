@@ -70,6 +70,7 @@ namespace ASPCoreWebApi.Controllers
                 Name = s.Name,
                 Address = s.Address,
                 Email = s.Email,
+                DOB= s.DOB
 
             });
             //OK -200 status
@@ -100,6 +101,7 @@ namespace ASPCoreWebApi.Controllers
                 Name = student.Name,
                 Address = student.Address,
                 Email = student.Email,
+                DOB= student.DOB
             };
             //// Ok -200 status
             return Ok(studentdto);          
@@ -126,6 +128,7 @@ namespace ASPCoreWebApi.Controllers
                 Name = student.Name,
                 Address = student.Address,
                 Email = student.Email,
+                DOB= student.DOB
             };
 
             //// OK -200 status
@@ -137,8 +140,15 @@ namespace ASPCoreWebApi.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(Student), 201)]
-        public IActionResult CreateStudent(StudentRequest request)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<StudentDTO> CreateStudent(StudentDTO request)
         {
+            if(request==null)
+            {
+                return BadRequest("Please enter data");
+            }
+
             Student student = new()
             {
                 Address = request.Address,
