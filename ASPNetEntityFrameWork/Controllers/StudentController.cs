@@ -81,38 +81,57 @@ namespace ASPCoreWebApi.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult getallstudent(int id) {
+        public ActionResult<StudentDTO> getallstudent(int id) {
 
-            return Ok(_collegeDbContext.studentcs.FirstOrDefault(x => x.Id == id));
+            if (id <= 0)
+            {
+                // Badrequest -400 status
+                return BadRequest("The id cannot be 0 or less than 0");
+            }
 
-            //if (id <= 0)
-            //{
-            //    // Badrequest -400 status
-            //    return BadRequest("The id cannot be 0 or less than 0");
-            //}
+            var student = _collegeDbContext.studentcs.FirstOrDefault(x => x.Id == id);
+            if (student == null)           
+                 //NotFound -404 status
+                return NotFound($"The student id {id} you are looking doesnot exist");
 
-            //var student = StudentRepository.students.FirstOrDefault(x => x.Id == id);
-            //if (student == null)           
-            //    // NotFound -404 status
-            //    return NotFound($"The student id {id} you are looking doesnot exist");
-
+            var studentdto = new StudentDTO()
+            {
+                Id = student.Id,
+                Name = student.Name,
+                Address = student.Address,
+                Email = student.Email,
+            };
             //// Ok -200 status
-            //return Ok(StudentRepository.students.FirstOrDefault(x=> x.Id==id));
+            return Ok(studentdto);          
+
 
         }
 
         [HttpGet("{name:alpha}")]
-        public IActionResult getallstudent(string name)
+        public ActionResult<StudentDTO> getallstudent(string name)
         {
-            //if (name == null)
-            //{
-            //    return NotFound("The");
-            //}
+            if (name == null)
+            {
+                return NotFound("The");
+            }
+
+            var student=_collegeDbContext.studentcs.FirstOrDefault(n=>n.Name == name);
+            if (student == null)
+                //NotFound -404 status
+                return NotFound($"The student name {name} you are looking doesnot exist");
+
+            var studentdto = new StudentDTO()
+            {
+                Id = student.Id,
+                Name = student.Name,
+                Address = student.Address,
+                Email = student.Email,
+            };
 
             //// OK -200 status
             //return Ok(StudentRepository.students.FirstOrDefault(x => x.Name == name));
 
-            return Ok(_collegeDbContext.studentcs.FirstOrDefault(x => x.Name == name));
+            return Ok(studentdto);
         }
 
 
