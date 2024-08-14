@@ -148,6 +148,13 @@ namespace ASPCoreWebApi.Controllers
             {
                 return BadRequest("Please enter data");
             }
+            //Custom Validation
+            if (request.DOB > DateTime.Now)
+            {
+                ModelState.AddModelError("DOB Error", "DOB should be less than current date");
+                return BadRequest(ModelState);
+            
+             }
 
             Student student = new()
             {
