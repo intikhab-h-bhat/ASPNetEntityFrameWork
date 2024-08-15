@@ -170,6 +170,62 @@ namespace ASPCoreWebApi.Controllers
             return CreatedAtAction("getallstudent", new { id = student.Id }, student);
         }
 
+
+        [HttpPut]
+        [Route("Update")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult UpdateStudent(StudentDTO request)
+        {
+            if (request == null || request.Id < 0)
+                BadRequest();
+            
+            var existingStudent=_collegeDbContext.studentcs.Where(s=> s.Id == request.Id).FirstOrDefault();
+
+            if(existingStudent == null)
+               return NotFound();
+
+            existingStudent.Name = request.Name;
+            existingStudent.Email = request.Email;
+            existingStudent.DOB = request.DOB;
+
+            _collegeDbContext.studentcs.Update(existingStudent);
+            _collegeDbContext.SaveChanges();
+
+            return NoContent();
+
+        }
+
+
+        [HttpPatch]
+        [Route("UpdateStuPartially")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult UpdateStudentPartialy(StudentDTO request)
+        {
+            if (request == null || request.Id < 0)
+                BadRequest();
+
+            var existingStudent = _collegeDbContext.studentcs.Where(s => s.Id == request.Id).FirstOrDefault();
+
+            if (existingStudent == null)
+                return NotFound();
+
+            existingStudent.Name = request.Name;
+            existingStudent.Email = request.Email;
+            existingStudent.DOB = request.DOB;
+
+            _collegeDbContext.studentcs.Update(existingStudent);
+            _collegeDbContext.SaveChanges();
+
+            return NoContent();
+
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
