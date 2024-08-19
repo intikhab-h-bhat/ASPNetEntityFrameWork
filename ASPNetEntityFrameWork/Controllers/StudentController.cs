@@ -17,10 +17,12 @@ namespace ASPCoreWebApi.Controllers
     public class StudentController : ControllerBase
     {
         private readonly CollegeDBContext _collegeDbContext;
+        private readonly ILogger<StudentController> _logger;
 
-        public StudentController(CollegeDBContext collegeDbContext)
+        public StudentController(CollegeDBContext collegeDbContext, ILogger<StudentController> logger)
         {
             _collegeDbContext = collegeDbContext;
+            _logger = logger;
         }
 
 
@@ -65,6 +67,7 @@ namespace ASPCoreWebApi.Controllers
             //}
             //OK -200 status
             // return Ok(studentsdto);
+            _logger.LogInformation("GetStudents method started");
 
             var students = _collegeDbContext.studentcs.Select(s => new StudentDTO()
             {
@@ -88,15 +91,18 @@ namespace ASPCoreWebApi.Controllers
 
             if (id <= 0)
             {
+                _logger.LogWarning("Bad Request");
                 // Badrequest -400 status
                 return BadRequest("The id cannot be 0 or less than 0");
             }
 
             var student = _collegeDbContext.studentcs.FirstOrDefault(x => x.Id == id);
             if (student == null)
+            {
+                _logger.LogError("Student not found");
                 //NotFound -404 status
                 return NotFound($"The student id {id} you are looking doesnot exist");
-
+            }
             var studentdto = new StudentDTO()
             {
                 Id = student.Id,

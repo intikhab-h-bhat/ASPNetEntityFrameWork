@@ -2,6 +2,9 @@ using ASPNetEntityFrameWork.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
+//builder.Logging.AddDebug();
+builder.Logging.AddConsole();
 
 
 builder.Services.AddDbContext<CollegeDBContext>(options =>
