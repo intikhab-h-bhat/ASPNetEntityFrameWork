@@ -230,8 +230,6 @@ namespace ASPCoreWebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-
-
             existingStudent.Name = studentdto.Name;
             existingStudent.Email = studentdto.Email;
             existingStudent.DOB = studentdto.DOB;
