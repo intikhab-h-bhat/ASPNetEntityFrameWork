@@ -4,6 +4,7 @@ using ASPNetEntityFrameWork.Data;
 using ASPNetEntityFrameWork.Models;
 using ASPNetEntityFrameWork.Requests;
 using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace ASPCoreWebApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize("superadmin,Admin")]
     public class StudentController : ControllerBase
     {
         private readonly CollegeDBContext _collegeDbContext;
