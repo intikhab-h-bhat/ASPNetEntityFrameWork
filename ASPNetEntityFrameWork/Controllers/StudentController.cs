@@ -15,7 +15,7 @@ namespace ASPCoreWebApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize("superadmin,Admin")]
+   [Authorize]
     public class StudentController : ControllerBase
     {
         private readonly CollegeDBContext _collegeDbContext;
